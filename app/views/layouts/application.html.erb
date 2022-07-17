@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blog</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> 
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <% flash.each do |type, msg| %>
+      <% msg.each do |m| %>
+        <div class="bg-green-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <%= m %>
+        </div>
+      <% end %>
+
+    <% end %>
+    <%= render 'layouts/navigation_bar' %>
+    <%= yield %>
+    <div class="bg-red-500 text-green hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+      <%= VisitorCounter.count %>
+    </div>    
+    
+    
+
+  </body>
+</html>
+<script>
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+  setInterval(function(){
+    document.getElementById("clock").innerText = new Date()
+  },1000)
+
+  function challenge() {
+    let random1 = getRandomInt(1000)
+    let random2 = getRandomInt(1000)
+    let result = window.prompt(`${random1} + ${random2}`)
+    if(result == random1 + random2) {
+      localStorage.setItem('visits', 0)
+
+
+    } else {
+      challenge()
+    }
+  }
+  let item = localStorage.getItem('visits')
+
+  if(item == null) {
+    challenge()
+
+
+  }
+
+</script>

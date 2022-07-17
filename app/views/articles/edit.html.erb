@@ -1,0 +1,29 @@
+<div class="bg-red-500 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+<h1>Edit Article</h1>
+</div>
+<%= form_with model: @article do |form| %>
+  <div class="bg-blue-500 text-white px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.label :new_title %><br>
+    <%= form.text_field :title %>
+  </div>
+  <br/>
+
+  <div class="bg-green-500 text-white px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.label :new_body %><br>
+    <%= form.text_area :body %>
+  </div>
+  <br/>
+  <div class="bg-purple-500 text-yellow-500 px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.submit %>
+  </div>
+
+<% end %>
+<div class="bg-yellow-400 text-blue px-3 py-2 rounded-md text-sm font-medium">
+  <a href='/articles'>Go Back to Articles </a>
+</div>
+<div class="bg-pink-400 text-blue px-3 py-2 rounded-md text-sm font-medium">
+  <a href='/articles/new'>Create A New Article </a>
+</div>
+<div class="bg-green-400 text-blue px-3 py-2 rounded-md text-sm font-medium">
+  <a href='/dashboard'>Go To Your Dashboard </a>
+</div>

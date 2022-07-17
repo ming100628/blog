@@ -1,0 +1,30 @@
+
+<h1 class="bg-yellow-500 text-blue hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Create an Article</h1>
+
+
+<%= form_with model: @article, url: '/articles' do |form| %>
+  <div class="bg-red-500 text-blue hover:bg-yellow-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="bg-blue-500 text-red hover:bg-yellow-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </div>
+  <div class="bg-purple-500 text-yellow hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.label :status %><br>
+    <%= form.select :status, ['public', 'private', 'archived'], selected: 'public' %>
+  </div>
+
+  <div class="bg-green-500 text-purple hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+    <%= form.submit %>
+  </div>
+
+<% end %>
+<div class="bg-yellow-400 text-yellow hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+  <a href='/articles'>Go Back to Articles </a>
+</div>
+<div class="bg-indigo-400 text-yellow hover:bg-pink-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+  <a href='/dashboard'>Go To Dashboard </a>
+</div>

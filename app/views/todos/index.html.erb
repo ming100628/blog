@@ -1,0 +1,82 @@
+To Do List
+<form>
+
+    <input type="text" class="border-2 border-blue-500" id="id"/>
+
+</form>
+
+<div class="ml-6">
+    <ul id='my-todo-list'>
+    </ul>
+</div>
+
+<script>
+    let parent = document.querySelector('#my-todo-list')
+    let existingList = localStorage.getItem("todolist")
+
+    function createListItem(text) {
+        let child = document.createElement('li')
+        child.innerHTML = text
+        child.style.listStyleType = 'disc'
+
+        child.addEventListener('click', function(event) {
+            console.log('click click')
+            let existingList = JSON.parse(localStorage.getItem("todolist"))
+            // existingList = existingList.filter(text => event.target.innerHTML != text)
+            let newlist = []
+            for (const element of existingList) {
+                if (element == event.target.innerHTML) {
+                    // do nothing
+                } else {
+                    newlist.push(element)
+                }
+            }
+            localStorage.setItem('todolist', JSON.stringify(newlist))
+
+            event.target.remove()
+        })
+
+        return child
+    }
+
+    if (existingList) {
+        existingList = JSON.parse(existingList)
+        existingList.forEach((el, index) => {
+            parent.appendChild(createListItem(el))
+        })
+    } else {
+
+    }
+    let input = document.querySelector("#id")
+
+    input.addEventListener("input", function(event){
+        if (event.data == '0') {
+            let newtodo = input.value.slice(0, -1)
+            let existingList = localStorage.getItem("todolist")
+            if (existingList) {
+                existingList = JSON.parse(existingList)
+            } else {
+                existingList = []
+            }   
+            existingList.push(newtodo)
+            localStorage.setItem("todolist", JSON.stringify(existingList))
+            let child = createListItem(newtodo)
+
+
+
+            parent.appendChild(child)
+            
+            console.log('add to to do list')
+            input.value = ''
+            
+        }
+
+    })
+
+
+
+
+
+
+
+</script>

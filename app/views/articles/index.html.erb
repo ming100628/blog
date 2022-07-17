@@ -1,0 +1,19 @@
+
+<div class="bg-yellow-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+  <a href= '/dashboard'> Go To Your Dashbaord </a>
+</div>
+<br/>
+<%if current_user %>
+  <div class="bg-indigo-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
+    <a href= '/articles/new'> Create An Article </a>
+  </div>
+<% end %>
+<br/>
+<h2 class="bg-red-500 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"> Articles: </h2>
+<% @articles.each do |article| %>
+  <a href="<%= article_path(article) %>">
+    <%= article.title %>
+  </a>
+<% end %>
+
+    

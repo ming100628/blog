@@ -1,0 +1,20 @@
+<%
+=begin%>
+ <form accept-charset="UTF-8" action='/login' method='post'>
+    <label for="username">Username:</label>
+
+<input class='border-blue-700 border-2 rounded-lg' id='username' type='text'>
+    <label for="password">Password:</label>
+<input class='border-blue-700 border-2 rounded-lg' id='password' type='password'>
+<input id='users' value='Submit' class='border-10 border-blue-300 bg-green-500 p-1.5 rounded-md' type='submit'>
+
+</form> 
+<%
+=end%>
+<form action="/login" method="post" accept-charset="UTF-8" >
+  <label for="username">Username:</label>
+  <input id="username" name="username" type="text">
+    <label for="password">Password:</label>
+  <input id="password" name="password" type="text" >
+  <input name="commit" type="submit" value="Login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"/>
+</form>

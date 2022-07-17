@@ -1,0 +1,19 @@
+<h1> <%= @article.title %></h1>
+<br/>
+<h5><%= @article.body %></h5>
+
+<ul>
+  <li class="bg-yellow-500 text-blue hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"><%= link_to "Edit", edit_article_path(@article) %></li>
+  <li class="bg-green-500 text-blue hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"><%= link_to "Destroy", article_path(@article),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>
+
+<h2 class="bg-red-500 text-blue hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Comments</h2>
+<% @article.comments.each do |comment| %>
+  <%= render 'articles/comments/comment', comment: comment %>
+<% end %>
+
+<h2>Add a comment:</h2>
+<%= render 'articles/comments/form', article: @article%>
+

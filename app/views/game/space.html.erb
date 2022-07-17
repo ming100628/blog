@@ -1,0 +1,18 @@
+<div>
+    <canvas id="canvas" class="border border-red-300 bg-black" style="width: 900px; height: 500px; display: inline-block "></canvas>
+    <div style="display: inline-block">
+        <h1>High Scores</h1>
+        <% Score.where(game: "space").sort_by {|score| -(score.score.to_i) }[0..9].each do |score| %>
+            <div>
+                <%= score.user.nil? ? "unregistered" : score.user.username %>
+                <%= score.score %>
+                <%= score.created_at %>
+            </div>
+        <% end %>
+    </div>
+</div>
+<div id="pts"> 0 </div>
+<div id="lives"> 3 </div>
+<script src="/space.js"></script>
+
+<div id='output'>
