@@ -200,6 +200,8 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     strscan (3.0.3)
+    tailwindcss-rails (2.0.10-x64-mingw-ucrt)
+      railties (>= 6.0.0)
     thor (1.2.1)
     tilt (2.0.10)
     timeout (0.3.0)
@@ -250,6 +252,7 @@ DEPENDENCIES
   selenium-webdriver
   sendgrid-ruby
   spring
+  tailwindcss-rails
   turbolinks (~> 5)
   tzinfo-data
   web-console (>= 4.1.0)

@@ -11,6 +11,14 @@ class GameController < ApplicationController
         
     end
 
+    def index
+        
+    end
+
+    def concentration
+
+    end
+
     def highscore
         score = params[:score]
         game = params[:game]
