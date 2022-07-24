@@ -1,8 +1,52 @@
 <div class="flex justify-center">
-    <div class="grid grid-cols-4" x-data="{ tiles: Array(16) }">
-        <template x-for="tile in tiles">
-            <img src="https://robohash.org/1.png?bgset=bg1&set=set4"
-             x-on:click="alert('Hello World!')" class=" h-8 w-8 bg-yellow-500"/>
-        </template>
+  <div class="grid grid-cols-4" x-data="concentration">
+    <template x-for="(tile, index) in tiles">
+      <div
+        class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
+        @click="toggle(index)"
+      >
+        <img
+          x-show="open[index]"
+          :src="`https://robohash.org/${tiles[index]}.png?bgset=bg1&set=set4`"
+          class="cursor-pointer h-16 w-16"
+        />
+      </div>
+    </template>
+  </div>
 </div>
-</div>
+
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("concentration", () => ({
+      open: {},
+      tiles: [],
+      init() {
+        this.create8uniquepairs();
+      },
+      toggle(index) {
+        this.open[index] = !this.open[index];
+      },
+      create8uniquepairs() {
+        for (let i = 0; i < 8; i++) {
+          let png_number = Math.random(30000);
+          this.tiles.push(png_number);
+          this.tiles.push(png_number);
+        }
+        this.shuffle(this.tiles);
+      },
+      shuffle(array) {
+        let currentIndex = array.length,
+          randomIndex;
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+          ];
+        }
+        return array;
+      },
+    }));
+  });
+</script>
