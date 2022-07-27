@@ -1,34 +1,19 @@
-
 <div>
-  <div class="bg-gradient-to-r from-yellow-400 via-blue-500 to-pink-500">
-    <h1 class=" h-96 text-center p-6 text-7xl">  ArticlesHub </h1>
+  <div class="bg-gradient-to-r from-pink-500 via-yellow-500 to-pink-500">
+    <h1 class="h-96 text-center p-6 text-7xl">A website</h1>
   </div>
-  <ol>
-    
-  </ol>
-    <%
-=begin%>
- <% @articles.each do |article| %>
-        <h3>
-          <a href="<%= article_path(article) %>">
-            <%= article.title %>
-          </a>
-        
-        <a href="<%= edit_article_path(article) %>">
-          edit
-        </a>
-        <%= link_to 'delete', article_path(article), method: :delete, data: { confirm: "Are you sure?" } %>
-        </h3>
-    <% end %>
-    <a href= '/articles/new'>create a new article </a> 
-  </div> 
-<%
-=end%>
-<div class="bg-yellow-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
-  <a href= '/dashboard'> Go To Your Dashbaord </a>
+  <ol></ol>
+
+  <div
+    class="bg-yellow-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+  >
+    <a href="/dashboard"> Go To Your Dashbaord </a>
+  </div>
+  <br />
+  <div
+    class="bg-indigo-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+  >
+    <a href="/articles/new"> Create An Article </a>
+  </div>
+  <br />
 </div>
-<br/>
-<div class="bg-indigo-500 text-green hover:bg-red-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">
-  <a href= '/articles/new'> Create An Article </a>
-</div>
-<br/>

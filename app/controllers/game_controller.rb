@@ -8,14 +8,18 @@ class GameController < ApplicationController
     end
 
     def space
-        
+
     end
 
     def index
-        
+
     end
 
     def concentration
+
+    end
+
+    def dino
 
     end
 
