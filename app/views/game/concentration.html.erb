@@ -20,11 +20,41 @@
     Alpine.data("concentration", () => ({
       open: {},
       tiles: [],
+      firstOpenTile: null,
+      secondOpenTile: null,
+      attempts: 0,
+      no_of_clicks: 0,
       init() {
         this.create8uniquepairs();
       },
       toggle(index) {
-        this.open[index] = !this.open[index];
+        if (this.no_of_clicks == 1 && this.firstOpenTile == index) {
+          return;
+        }
+        attempts += 1;
+        this.no_of_clicks += 1;
+        if (this.no_of_clicks == 3) {
+          // third click
+          if (
+            this.tiles[this.firstOpenTile] != this.tiles[this.secondOpenTile]
+          ) {
+            this.open[this.firstOpenTile] = false;
+            this.open[this.secondOpenTile] = false;
+          }
+          this.firstOpenTile = null;
+          this.secondOpenTile = null;
+          this.no_of_clicks = 0;
+        } else if (this.no_of_clicks == 2) {
+          // second click
+          this.secondOpenTile = index;
+          this.open[index] = true;
+        } else if (this.no_of_clicks == 1) {
+          // first click
+          this.firstOpenTile = index;
+          this.open[index] = true;
+        }
+        console.log(this.firstOpenTile);
+        console.log(this.secondOpenTile);
       },
       create8uniquepairs() {
         for (let i = 0; i < 8; i++) {
