@@ -3,7 +3,7 @@
     <template x-for="(tile, index) in tiles">
       <div
         class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
-        @click="toggle(index)"
+        @click="toggle(index); gameover()"
       >
         <img
           x-show="open[index]"
@@ -22,16 +22,26 @@
       tiles: [],
       firstOpenTile: null,
       secondOpenTile: null,
-      attempts: 0,
+      rounds: 0,
       no_of_clicks: 0,
       init() {
         this.create8uniquepairs();
       },
+      gameover() {
+        let solvedTileCount = 0;
+        for (key in Object.keys(this.open)) {
+          if (this.open[key] == true) {
+            solvedTileCount += 1;
+          }
+        }
+        if (solvedTileCount == 16) {
+          alert(`You have won and used ${this.rounds} rounds!`);
+        }
+      },
       toggle(index) {
-        if (this.no_of_clicks == 1 && this.firstOpenTile == index) {
+        if (this.no_of_clicks > 0 && this.open[index]) {
           return;
         }
-        attempts += 1;
         this.no_of_clicks += 1;
         if (this.no_of_clicks == 3) {
           // third click
@@ -46,6 +56,7 @@
           this.no_of_clicks = 0;
         } else if (this.no_of_clicks == 2) {
           // second click
+          this.rounds += 1;
           this.secondOpenTile = index;
           this.open[index] = true;
         } else if (this.no_of_clicks == 1) {
