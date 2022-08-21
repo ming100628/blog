@@ -1,13 +1,13 @@
 <div class="flex justify-center">
   <div class="grid grid-cols-4" x-data="concentration">
-    <template x-for="(tile, index) in tiles">
+    <template x-for="(tile, index) in gameData.tiles">
       <div
         class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
         @click="toggle(index); gameover()"
       >
         <img
-          x-show="open[index]"
-          :src="`https://robohash.org/${tiles[index]}.png?bgset=bg1&set=set4`"
+          x-show="gameData.open[index]"
+          :src="`https://robohash.org/${gameData.tiles[index]}.png?bgset=bg1&set=set4`"
           class="cursor-pointer h-16 w-16"
         />
       </div>
@@ -16,64 +16,73 @@
 </div>
 
 <script>
+  const socket = io("http://localhost:3001", {
+    transports: ["websocket"],
+  });
   document.addEventListener("alpine:init", () => {
     Alpine.data("concentration", () => ({
-      open: {},
-      tiles: [],
-      firstOpenTile: null,
-      secondOpenTile: null,
-      rounds: 0,
-      no_of_clicks: 0,
+      gameData: {
+        open: {},
+        tiles: [],
+        firstOpenTile: null,
+        secondOpenTile: null,
+        rounds: 0,
+        no_of_clicks: 0,
+      },
       init() {
         this.create8uniquepairs();
+        socket.on("hello", (data) => {
+          console.log(data);
+        });
+        socket.emit("hello", "world");
       },
       gameover() {
         let solvedTileCount = 0;
-        for (key in Object.keys(this.open)) {
-          if (this.open[key] == true) {
+        for (key in Object.keys(this.gameData.open)) {
+          if (this.gameData.open[key] == true) {
             solvedTileCount += 1;
           }
         }
         if (solvedTileCount == 16) {
-          alert(`You have won and used ${this.rounds} rounds!`);
+          alert(`You have won and used ${this.gameData.rounds} rounds!`);
         }
       },
       toggle(index) {
-        if (this.no_of_clicks > 0 && this.open[index]) {
+        console.log(this.gameData);
+        if (this.gameData.no_of_clicks > 0 && this.gameData.open[index]) {
           return;
         }
-        this.no_of_clicks += 1;
-        if (this.no_of_clicks == 3) {
+        this.gameData.no_of_clicks += 1;
+        if (this.gameData.no_of_clicks == 3) {
           // third click
           if (
-            this.tiles[this.firstOpenTile] != this.tiles[this.secondOpenTile]
+            this.gameData.tiles[this.gameData.firstOpenTile] !=
+            this.gameData.tiles[this.gameData.secondOpenTile]
           ) {
-            this.open[this.firstOpenTile] = false;
-            this.open[this.secondOpenTile] = false;
+            this.gameData.open[this.gameData.firstOpenTile] = false;
+            this.gameData.open[this.gameData.secondOpenTile] = false;
           }
-          this.firstOpenTile = null;
-          this.secondOpenTile = null;
-          this.no_of_clicks = 0;
-        } else if (this.no_of_clicks == 2) {
+          this.gameData.firstOpenTile = null;
+          this.gameData.secondOpenTile = null;
+          this.gameData.no_of_clicks = 0;
+        } else if (this.gameData.no_of_clicks == 2) {
           // second click
-          this.rounds += 1;
-          this.secondOpenTile = index;
-          this.open[index] = true;
-        } else if (this.no_of_clicks == 1) {
+          this.gameData.rounds += 1;
+          this.gameData.secondOpenTile = index;
+          this.gameData.open[index] = true;
+        } else if (this.gameData.no_of_clicks == 1) {
           // first click
-          this.firstOpenTile = index;
-          this.open[index] = true;
+          this.gameData.firstOpenTile = index;
+          this.gameData.open[index] = true;
         }
-        console.log(this.firstOpenTile);
-        console.log(this.secondOpenTile);
       },
       create8uniquepairs() {
         for (let i = 0; i < 8; i++) {
           let png_number = Math.random(30000);
-          this.tiles.push(png_number);
-          this.tiles.push(png_number);
+          this.gameData.tiles.push(png_number);
+          this.gameData.tiles.push(png_number);
         }
-        this.shuffle(this.tiles);
+        this.shuffle(this.gameData.tiles);
       },
       shuffle(array) {
         let currentIndex = array.length,
