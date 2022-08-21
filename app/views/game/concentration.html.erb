@@ -1,20 +1,21 @@
-<div class="flex justify-center">
-  <div class="grid grid-cols-4" x-data="concentration">
-    <template x-for="(tile, index) in gameData.tiles">
-      <div
-        class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
-        @click="toggle(index); gameover()"
-      >
-        <img
-          x-show="gameData.open[index]"
-          :src="`https://robohash.org/${gameData.tiles[index]}.png?bgset=bg1&set=set4`"
-          class="cursor-pointer h-16 w-16"
-        />
-      </div>
-    </template>
+<div x-data="concentration">
+  <div class="flex justify-center">
+    <div class="grid grid-cols-4">
+      <template x-for="(tile, index) in gameData.tiles">
+        <div
+          class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
+          @click="toggle(index); gameover()"
+        >
+          <img
+            x-show="gameData.open[index]"
+            :src="`https://robohash.org/${gameData.tiles[index]}.png?bgset=bg1&set=set4`"
+            class="cursor-pointer h-16 w-16"
+          />
+        </div>
+      </template>
+    </div>
   </div>
 </div>
-
 <script>
   const socket = io("http://localhost:3001", {
     transports: ["websocket"],
@@ -33,8 +34,10 @@
         this.create8uniquepairs();
         socket.on("hello", (data) => {
           console.log(data);
+          this.gameData = data;
+          console.log(this.gameData);
         });
-        socket.emit("hello", "world");
+        socket.emit("hello", this.gameData);
       },
       gameover() {
         let solvedTileCount = 0;
@@ -75,6 +78,7 @@
           this.gameData.firstOpenTile = index;
           this.gameData.open[index] = true;
         }
+        socket.emit("hello", this.gameData);
       },
       create8uniquepairs() {
         for (let i = 0; i < 8; i++) {
