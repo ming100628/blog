@@ -15,7 +15,7 @@
         </div>
       </template>
     </div>
-    <h1 x-text="playedBy"></h1>
+    <h1 x-text="gameData.turn"></h1>
   </div>
 </div>
 <script>
@@ -34,6 +34,7 @@
         secondOpenTile: null,
         rounds: 0,
         no_of_clicks: 0,
+        turn: "Player 1",
       },
       booleanVariable: false,
       init() {
@@ -77,9 +78,16 @@
         }
       },
       toggle(index) {
+        console.log(this.gameData.turn);
+        console.log(this.playerName);
         console.log(this.gameData);
         if (this.gameData.no_of_clicks > 0 && this.gameData.open[index]) {
           return;
+        }
+        if (this.gameData.turn != this.playerName) {
+          return;
+        } else {
+          // turn = another player
         }
         this.gameData.no_of_clicks += 1;
         if (this.gameData.no_of_clicks == 3) {
@@ -90,6 +98,11 @@
           ) {
             this.gameData.open[this.gameData.firstOpenTile] = false;
             this.gameData.open[this.gameData.secondOpenTile] = false;
+            if (this.gameData.turn == "Player 1") {
+              this.gameData.turn = "Player 2";
+            } else {
+              this.gameData.turn = "Player 1";
+            }
           }
           this.gameData.firstOpenTile = null;
           this.gameData.secondOpenTile = null;

@@ -2,43 +2,67 @@
 <nav class="bg-yellow-300">
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
     <div class="relative flex items-center justify-between h-16">
-
-      <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-
+      <div
+        class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
+      >
         <div class="hidden sm:block sm:ml-6">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-black" -->
-            <a href="/articles" class="bg-blue-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Articles</a>
+            <a
+              href="/articles"
+              class="bg-blue-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+              aria-current="page"
+              >Articles</a
+            >
 
-            <a href="/dashboard" class="bg-red-400 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+            <a
+              href="/dashboard"
+              class="bg-red-400 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+              >Dashboard</a
+            >
 
-            <a href="/todos?" class="bg-green-400 text-black hover:bg-yellow-700 hover:text-purple px-3 py-2 rounded-md text-sm font-medium">To Do List</a>
+            <a
+              href="/todos?"
+              class="bg-green-400 text-black hover:bg-yellow-700 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium"
+              >To Do List</a
+            >
 
-            <a href="/games" class="bg-yellow-400 text-black hover:bg-gray-700 hover:text-purple px-3 py-2 rounded-md text-sm font-medium">Games</a>
-
-
-
+            <a
+              href="/games"
+              class="bg-yellow-400 text-black hover:bg-gray-700 hover:text-red-400 px-3 py-2 rounded-md text-sm font-medium"
+              >Games</a
+            >
           </div>
         </div>
       </div>
-      <div class="absolute inset-y-0 right-0 flex space-x-5 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+      <div
+        class="absolute inset-y-0 right-0 flex space-x-5 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+      >
         <% if current_user %>
-          <div><%= current_user.username %></div>
-          <a href="/logout" class="bg-green-700 text-white hover:bg-blue-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Log Out</a>
-          
-        <% else %>
-          <a href="/login" class="bg-blue-700 text-white hover:bg-blue-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Sign In</a>
+        <div><%= current_user.username %></div>
+        <a
+          href="/logout"
+          class="bg-green-700 text-white hover:bg-blue-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+          >Log Out</a
+        >
 
-          <a href="/create_user" class="bg-green-500 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium">Sign Up</a>
+        <% else %>
+        <a
+          href="/login"
+          class="bg-blue-700 text-white hover:bg-blue-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+          >Sign In</a
+        >
+
+        <a
+          href="/create_user"
+          class="bg-green-500 text-white hover:bg-gray-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
+          >Sign Up</a
+        >
 
         <% end %>
       </div>
-
-
     </div>
-    <div id='clock'>
-    </div>
-
+    <div id="clock"></div>
+    <div>Visitor Counter: <%= VisitorCounter.count %></div>
   </div>
-
 </nav>

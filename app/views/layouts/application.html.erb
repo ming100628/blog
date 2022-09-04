@@ -35,11 +35,6 @@
     <% end %>
     <%= render 'layouts/navigation_bar' %>
     <%= yield %>
-    <div
-      class="bg-red-500 text-green hover:bg-green-700 hover:text-black px-3 py-2 rounded-md text-sm font-medium"
-    >
-      <%= VisitorCounter.count %>
-    </div>
   </body>
 </html>
 <script>
