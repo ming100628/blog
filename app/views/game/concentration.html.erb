@@ -1,22 +1,59 @@
+<div class="grid-cols-2 grid-cols-4 grid-cols-6"></div>
 <div x-data="concentration">
-  <h1 x-text="playerName"></h1>
-  <div class="flex justify-center">
-    <div class="grid grid-cols-4">
-      <template x-for="(tile, index) in gameData.tiles">
-        <div
-          class="cursor-pointer h-16 w-16 border-yellow-300 border-2"
-          @click="toggle(index); gameover()"
-        >
-          <img
-            x-show="gameData.open[index]"
-            :src="`https://robohash.org/${gameData.tiles[index]}.png?bgset=bg1&set=set4`"
-            class="cursor-pointer h-16 w-16"
-          />
+  <template x-if="!started">
+    <div class="flex justify-center">
+      <div
+        class="p-8 m-8 border-2 drop-shadow-2xl bg-red-50 border-gray-500 rounded-md"
+      >
+        <h1 class="text-xl">Choose The Number of Tiles!</h1>
+        <div class="flex flex-col">
+          <button
+            @click="started = true; columns = 2; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+            class="bg-blue-300 p-3 m-3 rounded-md"
+          >
+            2x2
+          </button>
+          <button
+            @click="started = true; columns = 4; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+            class="bg-blue-300 p-3 m-3 rounded-md"
+          >
+            4x4
+          </button>
+          <button
+            @click="started = true; columns = 6; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+            class="bg-blue-300 p-3 m-3 rounded-md"
+          >
+            6x6
+          </button>
         </div>
-      </template>
+      </div>
     </div>
-    <h1 x-text="gameData.turn"></h1>
-  </div>
+  </template>
+  <template x-if="started">
+    <div>
+      <h1 x-text="playerName"></h1>
+      <div class="flex justify-center">
+        <div
+          class="grid auto-rows-fr h-[70vh] w-[70vh]"
+          :class="`grid-cols-${columns}`"
+        >
+          <template x-for="(tile, index) in gameData.tiles">
+            <div
+              class="cursor-pointer border-yellow-300 border-2"
+              @click="toggle(index); gameover()"
+            >
+              <img
+                x-show="gameData.open[index]"
+                :src="`https://robohash.org/${gameData.tiles[index]}.png?bgset=bg1&set=set4`"
+                class="cursor-pointer"
+              />
+            </div>
+          </template>
+        </div>
+      </div>
+      <h1 x-text="gameData.turn"></h1>
+    </div>
+  </template>
 </div>
 <script>
   const socket = io("http://localhost:3001", {
@@ -27,6 +64,8 @@
       whenIEnteredTheGame: null,
       playerName: "Player 1",
       playedBy: "",
+      started: false,
+      columns: 0,
       gameData: {
         open: {},
         tiles: [],
@@ -39,7 +78,6 @@
       booleanVariable: false,
       init() {
         this.whenIEnteredTheGame = new Date();
-        this.create8uniquepairs();
         socket.on("gameDataUpdate", (data) => {
           this.gameData = data.gameData;
           this.playedBy = data.playerName;
@@ -122,8 +160,8 @@
           playerName: this.playerName,
         });
       },
-      create8uniquepairs() {
-        for (let i = 0; i < 8; i++) {
+      createUniquePairs(numberOfPairs) {
+        for (let i = 0; i < numberOfPairs; i++) {
           let png_number = Math.random(30000);
           this.gameData.tiles.push(png_number);
           this.gameData.tiles.push(png_number);
