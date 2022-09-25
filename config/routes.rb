@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post '/game/highscore', to: 'game#highscore'
   get '/space_invader', to: 'game#space'
   get '/concentration', to: 'game#concentration'
+  get '/mastermind', to: 'game#mastermind'
   get '/games', to: 'game#index'
   get '/dino', to: 'game#dino'
 end

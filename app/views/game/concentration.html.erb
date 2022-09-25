@@ -1,5 +1,6 @@
 <div x-data="concentration">
   <div
+    id="chatBox"
     class="z-50 p-4 h-64 w-64 bg-blue-100 absolute bottom-6 right-0 overflow-y-auto"
   >
     <template x-for="message in chatHistory">
@@ -8,7 +9,7 @@
   </div>
   <input autofocus @keyup.enter="sendMessage()" x-model="chatText" class="z-50
   w-64 border-[5px] border-blue-200 absolute bottom-0 right-0 type="text" />
-
+  const speechRecognistion = window.speechRecognition
   <div class="grid-cols-2 grid-cols-4 grid-cols-6"></div>
   <div>
     <template x-if="!started">
@@ -99,19 +100,14 @@
 
         socket.on("chatDataUpdate", (chatHistory) => {
           this.chatHistory = chatHistory;
+          setTimeout(() => {
+            this.scrollToChatBoxBottom();
+          }, 50);
         });
 
         socket.on(
           "someOtherPlayerEntered",
           (timeTheOtherPersonEnteredTheGame) => {
-            //   if (timeTheOtherPersonEnteredTheGame == this.whenIEnteredTheGame) {
-            //     return;
-            //   }
-            //   if (timeTheOtherPersonEnteredTheGame > this.whenIEnteredTheGame) {
-            //     this.playerName = "Player 1";
-            //   } else {
-            //     this.playerName = "Player 2";
-            //   }
             if (this.booleanVariable == false) {
               this.playerName = "Player 1";
               this.booleanVariable = true;
@@ -123,10 +119,14 @@
         socket.emit("someOtherPlayerEntered", this.whenIEnteredTheGame);
       },
       sendMessage() {
-        this.chatHistory.push(this.chatText);
+        socket.emit("chatDataUpdate", this.chatText);
         this.chatText = "";
-        socket.emit("chatDataUpdate", this.chatHistory);
       },
+      scrollToChatBoxBottom() {
+        document.getElementById("chatBox").scrollTop =
+          document.getElementById("chatBox").scrollHeight + 100;
+      },
+
       gameover() {
         let solvedTileCount = 0;
         for (key in Object.keys(this.gameData.open)) {

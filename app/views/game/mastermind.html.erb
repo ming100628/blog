@@ -1,0 +1,48 @@
+<div
+  class="mx-[32rem] my-3 border-2 border-black rounded-md bg-red-100"
+  x-data="mastermind"
+>
+  <h1>Rules:</h1>
+  <ol>
+    <li>1. NO EMPTY PEG</li>
+    <li>2. NO REPEAT COLORS</li>
+  </ol>
+  <div class="flex flex-col items-center">
+    <template x-for="row in 12">
+      <div class="flex">
+        <template x-for="column in 4"
+          ><div
+            class="rounded-full w-8 h-8"
+            :class="`bg-${pegs[row - 1][column - 1]}-500`"
+          ></div
+        ></template></div
+    ></template>
+  </div>
+</div>
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("mastermind", () => ({
+      pegs: [
+        ["red", "yellow", "green", "blue"],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+        [null, null, null, null],
+      ],
+      masterCode: [],
+
+      init() {},
+
+      createMasterCode() {
+        // homework: replace the masterCode variable with 4 unique colors, no nulls
+      },
+    }));
+  });
+</script>

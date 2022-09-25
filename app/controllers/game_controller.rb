@@ -23,6 +23,11 @@ class GameController < ApplicationController
 
     end
 
+    def mastermind
+
+    end
+
+
     def highscore
         score = params[:score]
         game = params[:game]
