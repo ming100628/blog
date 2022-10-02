@@ -13,7 +13,7 @@
         <template x-for="column in 4"
           ><div
             class="rounded-full w-8 h-8"
-            :class="`bg-${pegs[row - 1][column - 1]}-500`"
+            :class="`if (pegs[row - 1][column - 1] == null) { bg-black } else { bg-${pegs[row - 1][column - 1]}-500 }`"
           ></div
         ></template></div
     ></template>
@@ -23,7 +23,7 @@
   document.addEventListener("alpine:init", () => {
     Alpine.data("mastermind", () => ({
       pegs: [
-        ["red", "yellow", "green", "blue"],
+        [null, null, null, null],
         [null, null, null, null],
         [null, null, null, null],
         [null, null, null, null],
@@ -37,11 +37,27 @@
         [null, null, null, null],
       ],
       masterCode: [],
+      allColors: ["brown", "red", "blue", "purple", "orange", "green"],
 
-      init() {},
+      init() {
+        this.createMasterCode();
+        console.log(this.masterCode);
+      },
 
       createMasterCode() {
+        while (this.masterCode.length < 4) {
+          const randomColor = this.getRandomColor();
+          if (!this.masterCode.includes(randomColor)) {
+            this.masterCode.push(randomColor);
+          }
+        }
+
         // homework: replace the masterCode variable with 4 unique colors, no nulls
+      },
+
+      getRandomColor() {
+        const index = Math.floor(Math.random() * 6);
+        return this.allColors[index];
       },
     }));
   });
