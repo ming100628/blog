@@ -1,19 +1,23 @@
-<div class="bg-slate-500 bg-pink-500 border-white border-8"></div>
+<div class="bg-slate-500 bg-pink-500 bg-white border-white border-8"></div>
 <div
   class="mx-[32rem] my-3 border-2 border-black rounded-md bg-red-100"
   x-data="mastermind"
 >
   <div>
     <div class="flex items-center">
-      <template x-for="color in allColors">
+      <template x-for="(idx, index) in unsubmittedGuess">
         <div
-          :class="
-          if (currentColor == color)
-            { return `rounded-full w-16 h-16 bg-${color}-500 cursor-pointer border-white border-8` }
-          else { return `rounded-full w-16 h-16 bg-${color}-500 cursor-pointer` }"
-          @click="currentColor = color; console.log(currentColor); console.log(color)"
+          class="rounded-full w-16 h-16 cursor-pointer"
+          :class="allColors[idx]"
+          @click="unsubmittedGuess[index] = (idx + 1) % 6"
         ></div>
       </template>
+
+      <button
+        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1"
+      >
+        Submit Guess
+      </button>
     </div>
   </div>
   <div>
@@ -29,7 +33,7 @@
             ><div
               class="rounded-full w-8 h-8"
               @click="pegs[row - 1][column - 1] = currentColor; console.log('test')"
-              :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return `bg-${pegs[row - 1][column - 1]}-500` }"
+              :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return allColors[pegs[row - 1][column - 1]] }"
             ></div
           ></template></div
       ></template>
@@ -53,8 +57,17 @@
         [null, null, null, null],
         [null, null, null, null],
       ],
+      unsubmittedGuess: [0, 0, 0, 0],
       masterCode: [],
-      allColors: ["pink", "red", "blue", "purple", "slate", "green"],
+      currentRound: 0,
+      allColors: [
+        "bg-white",
+        "bg-red-500",
+        "bg-blue-500",
+        "bg-purple-500",
+        "bg-slate-500",
+        "bg-green-500",
+      ],
       currentColor: "pink",
 
       init() {
