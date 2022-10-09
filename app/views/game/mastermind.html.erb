@@ -28,7 +28,8 @@
           <template x-for="column in 4"
             ><div
               class="rounded-full w-8 h-8"
-              :class="`if (pegs[row - 1][column - 1] == null) { bg-black } else { bg-${pegs[row - 1][column - 1]}-500 }`"
+              @click="pegs[row - 1][column - 1] = currentColor; console.log('test')"
+              :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return `bg-${pegs[row - 1][column - 1]}-500` }"
             ></div
           ></template></div
       ></template>
