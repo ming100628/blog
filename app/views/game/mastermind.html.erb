@@ -14,7 +14,7 @@
       </template>
 
       <button
-        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1"
+        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; console.log(checkMasterCode())"
       >
         Submit Guess
       </button>
@@ -82,6 +82,26 @@
             this.masterCode.push(randomColor);
           }
         }
+      },
+
+      checkMasterCode() {
+        let repeatSame = 0;
+        let repeat = 0;
+        for (let peg = 0; peg < 4; peg++) {
+          for (let code = 0; code < 4; code++) {
+            if (
+              this.allColors[this.unsubmittedGuess[peg]] ==
+              this.masterCode[code]
+            ) {
+              if (peg == code) {
+                repeatSame += 1;
+              } else {
+                repeat += 1;
+              }
+            }
+          }
+        }
+        return { repeat, repeatSame };
       },
 
       getRandomColor() {
