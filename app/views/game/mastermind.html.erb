@@ -28,14 +28,20 @@
     </ol>
     <div class="flex flex-col items-center">
       <template x-for="row in 12">
-        <div class="flex">
+        <div class="flex my-1">
           <template x-for="column in 4"
             ><div
               class="rounded-full w-8 h-8"
               @click="pegs[row - 1][column - 1] = currentColor; console.log('test')"
               :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return allColors[pegs[row - 1][column - 1]] }"
             ></div
-          ></template></div
+          ></template>
+          <div class="grid grid-cols-2 ml-2">
+            <div class="bg-black rounded-full h-4 w-4"></div>
+            <div class="bg-black rounded-full h-4 w-4"></div>
+            <div class="bg-black rounded-full h-4 w-4"></div>
+            <div class="bg-black rounded-full h-4 w-4"></div>
+          </div></div
       ></template>
     </div>
   </div>
