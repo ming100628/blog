@@ -14,7 +14,7 @@
       </template>
 
       <button
-        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; console.log(checkMasterCode())"
+        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; checkMasterCode()"
       >
         Submit Guess
       </button>
@@ -32,15 +32,24 @@
           <template x-for="column in 4"
             ><div
               class="rounded-full w-8 h-8"
-              @click="pegs[row - 1][column - 1] = currentColor; console.log('test')"
+              @click="pegs[row - 1][column - 1] = currentColor;"
               :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return allColors[pegs[row - 1][column - 1]] }"
             ></div
           ></template>
           <div class="grid grid-cols-2 ml-2">
-            <div class="bg-black rounded-full h-4 w-4"></div>
-            <div class="bg-black rounded-full h-4 w-4"></div>
-            <div class="bg-black rounded-full h-4 w-4"></div>
-            <div class="bg-black rounded-full h-4 w-4"></div>
+            <template x-for="fIndex in 4">
+              <div
+                class="rounded-full h-4 w-4"
+                :class="let feedback = feedbacks[row - 1][fIndex - 1];
+                  if (feedback == 0) {
+                    return 'bg-white'
+                  } else if (feedback == 1) {
+                    return 'bg-slate-400'
+                  } else if (feedback == 2) {
+                    return 'bg-black'
+                  }"
+              ></div>
+            </template>
           </div></div
       ></template>
     </div>
@@ -49,6 +58,20 @@
 <script>
   document.addEventListener("alpine:init", () => {
     Alpine.data("mastermind", () => ({
+      feedbacks: [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+      ],
       pegs: [
         [null, null, null, null],
         [null, null, null, null],
@@ -66,6 +89,7 @@
       unsubmittedGuess: [0, 0, 0, 0],
       masterCode: [],
       currentRound: 0,
+      feedbackColors: ["bg-black", "bg-red-500", "bg-green-500"],
       allColors: [
         "bg-white",
         "bg-red-500",
@@ -78,7 +102,6 @@
 
       init() {
         this.createMasterCode();
-        console.log(this.masterCode);
       },
 
       createMasterCode() {
@@ -91,8 +114,7 @@
       },
 
       checkMasterCode() {
-        let repeatSame = 0;
-        let repeat = 0;
+        let correct = [0, 0, 0, 0];
         for (let peg = 0; peg < 4; peg++) {
           for (let code = 0; code < 4; code++) {
             if (
@@ -100,14 +122,16 @@
               this.masterCode[code]
             ) {
               if (peg == code) {
-                repeatSame += 1;
+                correct[peg] = 2;
               } else {
-                repeat += 1;
+                correct[peg] = 1;
               }
             }
           }
         }
-        return { repeat, repeatSame };
+        this.feedbacks[this.currentRound - 1] = correct.sort();
+        console.log(this.feedbacks);
+        return correct;
       },
 
       getRandomColor() {
