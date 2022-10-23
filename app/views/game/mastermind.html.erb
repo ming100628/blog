@@ -1,57 +1,63 @@
-<div class="bg-slate-500 bg-pink-500 bg-white border-white border-8"></div>
 <div
-  class="mx-[32rem] my-3 border-2 border-black rounded-md bg-red-100"
-  x-data="mastermind"
->
-  <div>
-    <div class="flex items-center">
-      <template x-for="(idx, index) in unsubmittedGuess">
-        <div
-          class="rounded-full w-16 h-16 cursor-pointer"
-          :class="allColors[idx]"
-          @click="unsubmittedGuess[index] = (idx + 1) % 6"
-        ></div>
-      </template>
+  class="bg-slate-500 bg-pink-500 bg-white border-white border-8 bg-red-500 bg-blue-500"
+></div>
+<div class="flex justify-center w-full">
+  <div
+    class="w-96 my-3 border-2 border-black rounded-md bg-red-100"
+    x-data="mastermind"
+  >
+    <div>
+      <div class="flex items-center">
+        <template x-for="(idx, index) in unsubmittedGuess">
+          <div
+            class="rounded-full w-16 h-16 cursor-pointer"
+            :class="allColors[idx]"
+            @click="unsubmittedGuess[index] = (idx + 1) % 6"
+          ></div>
+        </template>
 
-      <button
-        @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; checkMasterCode()"
-      >
-        Submit Guess
-      </button>
+        <button
+          @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; checkMasterCode(); console.log(masterCode); checkWinOrLose()"
+        >
+          Submit Guess
+        </button>
+      </div>
     </div>
-  </div>
-  <div>
-    <h1>Rules:</h1>
-    <ol>
-      <li>1. NO EMPTY PEG</li>
-      <li>2. NO REPEAT COLORS</li>
-    </ol>
-    <div class="flex flex-col items-center">
-      <template x-for="row in 12">
-        <div class="flex my-1">
-          <template x-for="column in 4"
-            ><div
-              class="rounded-full w-8 h-8"
-              @click="pegs[row - 1][column - 1] = currentColor;"
-              :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return allColors[pegs[row - 1][column - 1]] }"
-            ></div
-          ></template>
-          <div class="grid grid-cols-2 ml-2">
-            <template x-for="fIndex in 4">
-              <div
-                class="rounded-full h-4 w-4"
-                :class="let feedback = feedbacks[row - 1][fIndex - 1];
+    <div>
+      <h1>Rules:</h1>
+      <ol>
+        <li>1. NO EMPTY PEG</li>
+        <li>2. NO REPEAT COLORS</li>
+      </ol>
+      <div class="flex flex-col items-center">
+        <template x-for="row in 12">
+          <div class="flex my-1">
+            <template x-for="column in 4"
+              ><div
+                class="rounded-full w-8 h-8"
+                @click="pegs[row - 1][column - 1] = currentColor;"
+                :class="if (pegs[row - 1][column - 1] == null) { return 'bg-black' } else { return allColors[pegs[row - 1][column - 1]] }"
+              ></div
+            ></template>
+            <div class="grid grid-cols-2 ml-2">
+              <template x-for="fIndex in 4">
+                <div
+                  class="rounded-full h-4 w-4"
+                  :class="let feedback = feedbacks[row - 1][fIndex - 1];
                   if (feedback == 0) {
-                    return 'bg-white'
+                    return 'bg-slate-400'
                   } else if (feedback == 1) {
                     return 'bg-slate-400'
                   } else if (feedback == 2) {
-                    return 'bg-black'
+                    return 'bg-red-500'
+                  } else if (feedback == 3) {
+                    return 'bg-green-500'
                   }"
-              ></div>
-            </template>
-          </div></div
-      ></template>
+                ></div>
+              </template>
+            </div></div
+        ></template>
+      </div>
     </div>
   </div>
 </div>
@@ -89,7 +95,7 @@
       unsubmittedGuess: [0, 0, 0, 0],
       masterCode: [],
       currentRound: 0,
-      feedbackColors: ["bg-black", "bg-red-500", "bg-green-500"],
+      feedbackColors: ["bg-black", "bg-blue-500", "bg-red-500", "bg-green-500"],
       allColors: [
         "bg-white",
         "bg-red-500",
@@ -105,33 +111,63 @@
       },
 
       createMasterCode() {
-        while (this.masterCode.length < 4) {
-          const randomColor = this.getRandomColor();
-          if (!this.masterCode.includes(randomColor)) {
-            this.masterCode.push(randomColor);
-          }
-        }
+        this.masterCode.push("bg-white");
+        this.masterCode.push("bg-red-500");
+        this.masterCode.push("bg-blue-500");
+        this.masterCode.push("bg-purple-500");
+        // while (this.masterCode.length < 4) {
+        //   const randomColor = this.getRandomColor();
+        //   if (!this.masterCode.includes(randomColor)) {
+        //     this.masterCode.push(randomColor);
+        //   }
+        // }
       },
 
       checkMasterCode() {
-        let correct = [0, 0, 0, 0];
-        for (let peg = 0; peg < 4; peg++) {
-          for (let code = 0; code < 4; code++) {
-            if (
-              this.allColors[this.unsubmittedGuess[peg]] ==
-              this.masterCode[code]
-            ) {
-              if (peg == code) {
-                correct[peg] = 2;
-              } else {
-                correct[peg] = 1;
-              }
+        let feedback = [0, 0, 0, 0];
+
+        for (let pegIndex = 0; pegIndex < 4; pegIndex++) {
+          const unsubmittedGuess =
+            this.allColors[this.unsubmittedGuess[pegIndex]];
+          if (unsubmittedGuess == this.masterCode[pegIndex]) {
+            feedback[pegIndex] = 3;
+          } else if (this.masterCode.includes(unsubmittedGuess)) {
+            feedback[pegIndex] = 2;
+          }
+        }
+        this.feedbacks[this.currentRound - 1] = feedback.sort();
+        return feedback;
+      },
+
+      checkWinOrLose() {
+        if (this.checkWin()) {
+          alert("won");
+        }
+
+        if (this.checkLose()) {
+          alert("lost");
+        }
+      },
+      checkWin() {
+        return this.feedbacks.some((feedback) =>
+          feedback.every((feedbackElement) => feedbackElement == 3)
+        );
+      },
+
+      checkLose() {
+        let notCompletedPegs = 0;
+        for (let feedback = 0; feedback < 12; feedback++) {
+          for (let peg = 0; peg < 4; peg++) {
+            if (this.feedbacks[feedback][peg] == 0) {
+              notCompletedPegs += 1;
             }
           }
         }
-        this.feedbacks[this.currentRound - 1] = correct.sort();
-        console.log(this.feedbacks);
-        return correct;
+        if (notCompletedPegs == 0) {
+          return true;
+        } else {
+          return false;
+        }
       },
 
       getRandomColor() {
