@@ -1,7 +1,13 @@
 <div
   class="bg-slate-500 bg-pink-500 bg-white border-white border-8 bg-red-500 bg-blue-500"
 ></div>
-<div class="flex justify-center w-full">
+<div class="flex flex-col justify-center items-center w-full">
+  <div>
+    <h1 class="text-3xl">High Scores</h1>
+    <% Score.where(game: 'mastermind').each do |score| %>
+    <div><%= score.score %></div>
+    <% end %>
+  </div>
   <div
     class="w-96 my-3 border-2 border-black rounded-md bg-red-100"
     x-data="mastermind"
@@ -105,22 +111,19 @@
         "bg-green-500",
       ],
       currentColor: "pink",
+      socre: 0,
 
       init() {
         this.createMasterCode();
       },
 
       createMasterCode() {
-        this.masterCode.push("bg-white");
-        this.masterCode.push("bg-red-500");
-        this.masterCode.push("bg-blue-500");
-        this.masterCode.push("bg-purple-500");
-        // while (this.masterCode.length < 4) {
-        //   const randomColor = this.getRandomColor();
-        //   if (!this.masterCode.includes(randomColor)) {
-        //     this.masterCode.push(randomColor);
-        //   }
-        // }
+        while (this.masterCode.length < 4) {
+          const randomColor = this.getRandomColor();
+          if (!this.masterCode.includes(randomColor)) {
+            this.masterCode.push(randomColor);
+          }
+        }
       },
 
       checkMasterCode() {
@@ -142,6 +145,8 @@
       checkWinOrLose() {
         if (this.checkWin()) {
           alert("won");
+          this.score = this.currentRound;
+          this.postScore(this.score);
         }
 
         if (this.checkLose()) {
@@ -155,24 +160,22 @@
       },
 
       checkLose() {
-        let notCompletedPegs = 0;
-        for (let feedback = 0; feedback < 12; feedback++) {
-          for (let peg = 0; peg < 4; peg++) {
-            if (this.feedbacks[feedback][peg] == 0) {
-              notCompletedPegs += 1;
-            }
-          }
-        }
-        if (notCompletedPegs == 0) {
-          return true;
-        } else {
-          return false;
-        }
+        return this.currentRound >= 12;
       },
 
       getRandomColor() {
         const index = Math.floor(Math.random() * 6);
         return this.allColors[index];
+      },
+
+      postScore(score) {
+        fetch("/game/highscore", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ score: score, game: "mastermind" }),
+        }).then((res) => {
+          console.log("Request complete! response:", res);
+        });
       },
     }));
   });
