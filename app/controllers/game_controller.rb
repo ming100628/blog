@@ -1,36 +1,23 @@
 class GameController < ApplicationController
-    def tictactoe
+  def tictactoe; end
 
-    end
+  def snake; end
 
-    def snake
+  def space; end
 
-    end
+  def index; end
 
-    def space
+  def concentration; end
 
-    end
+  def dino; end
 
-    def index
+  def mastermind; end
 
-    end
+  def flappybird; end
 
-    def concentration
-
-    end
-
-    def dino
-
-    end
-
-    def mastermind
-
-    end
-
-
-    def highscore
-        score = params[:score]
-        game = params[:game]
-        Score.create!(score: score, game: game, user: current_user)
-    end
+  def highscore
+    score = params[:score]
+    game = params[:game]
+    Score.create!(score:, game:, user: current_user)
+  end
 end

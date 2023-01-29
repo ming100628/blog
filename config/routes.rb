@@ -1,6 +1,5 @@
-
 Rails.application.routes.draw do
-  root "main_pages#index"
+  root 'main_pages#index'
 
   resources :articles do
     resources :comments
@@ -21,4 +20,5 @@ Rails.application.routes.draw do
   get '/mastermind', to: 'game#mastermind'
   get '/games', to: 'game#index'
   get '/dino', to: 'game#dino'
+  get '/flappybird', to: 'game#flappybird'
 end
