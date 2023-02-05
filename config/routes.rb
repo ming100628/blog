@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   get '/games', to: 'game#index'
   get '/dino', to: 'game#dino'
   get '/flappybird', to: 'game#flappybird'
+  get '/instagram', to: 'instagram#index'
 end
