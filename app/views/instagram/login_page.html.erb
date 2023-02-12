@@ -1,0 +1,58 @@
+<div x-data="login" class="w-full bg-gray-100 h-full flex justify-center">
+  <div class="mt-8 mr-2"><img class="w-64" src="/screenshot1-2x.png" /></div>
+  <div class="mt-8 ml-2">
+    <div
+      class="w-64 h-[553px] border border-gray-300 bg-white flex flex-col justify-center items-center"
+    >
+      <div class="w-44 h-14 mb-6 overflow-hidden">
+        <img src="/sprite.png" />
+      </div>
+
+      <input
+        x-model="username"
+        class="w-56 mb-2 p-1 text-xs rounded border border-gray-200 bg-gray-100"
+      />
+      <input
+        x-model="password"
+        type="password"
+        class="w-56 my-2 p-1 text-xs rounded border border-gray-200 bg-gray-100"
+      />
+      <button
+        class="w-56 mt-2 bg-blue-400 rounded-md text-white p-2 font-semibold"
+        @click="login()"
+      >
+        Login
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("login", () => ({
+      username: "",
+      password: "",
+
+      async login() {
+        console.log(this.username, this.password);
+        const response = await fetch("/login", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRF-Token": document.querySelector("[name='csrf-token']")
+              .content,
+          },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          }),
+        });
+        console.log(await response.json());
+        console.log(response);
+        if (response.status == 403) {
+          alert("wrong password");
+        }
+      },
+    }));
+  });
+</script>
