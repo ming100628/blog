@@ -215,6 +215,7 @@ GEM
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2022.1)
       tzinfo (>= 1.0.0)
+    wdm (0.1.1)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -259,6 +260,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbolinks (~> 5)
   tzinfo-data
+  wdm
   web-console (>= 4.1.0)
   webdrivers
   webpacker (~> 5.0)

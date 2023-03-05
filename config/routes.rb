@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get '/flappybird', to: 'game#flappybird'
   get '/instagram', to: 'instagram#index'
   get '/instagram/login_page', to: 'instagram#login_page'
+  get '/instagram/search', to: 'instagram#search'
 end
