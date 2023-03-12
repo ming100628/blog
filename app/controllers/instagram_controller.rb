@@ -4,11 +4,12 @@ class InstagramController < ApplicationController
   def index; end
 
   def search
-    urls = PexelsService.new.client.photos.search(params[:search], page: 1, per_page: 10,
-                                                                   orientation: :portrait).map do |result|
-      result.src['original']
+    results = PexelsService.new.client.photos.search(params[:search], page: 1, per_page: 10,
+                                                                      orientation: :portrait).instance_variable_get(:@attrs)['photos'].map do |result|
+      { url: result['src']['portrait'], photographer: result['photographer'], attribute: result['alt'] }
     end
-    render json: { results: urls }, status: 200
+    puts results
+    render json: { results: }, status: 200
   end
 
   def login_page
