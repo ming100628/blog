@@ -6,9 +6,14 @@ class InstagramController < ApplicationController
   def search
     results = PexelsService.new.client.photos.search(params[:search], page: 1, per_page: 10,
                                                                       orientation: :portrait).instance_variable_get(:@attrs)['photos'].map do |result|
-      { url: result['src']['portrait'], photographer: result['photographer'], attribute: result['alt'] }
+      { id: result['id'], url: result['src']['portrait'], photographer: result['photographer'],
+        attribute: result['alt'] }
     end
-    puts results
+    results = results.map do |r|
+      r['liked'] = Like.where(photo_id: r[:id], user_id: current_user.id).exists?
+
+      r
+    end
     render json: { results: }, status: 200
   end
 

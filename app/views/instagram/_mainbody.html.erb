@@ -4,8 +4,9 @@
   <div @click="search(searchTerm)" class="bg-slate-500 p-2 cursor-pointer">
     Search
   </div>
+
   <div class="flex flex-col items-center space-y-5">
-    <template x-for="searchResult in searchResults">
+    <template x-for="searchResult in searchResults" :key="searchResult.id">
       <div class="w-56 bg-gray-200 border-2 border-black rounded-md">
         <div x-text="searchResult.photographer"></div>
 
@@ -13,10 +14,13 @@
         <div x-text="searchResult.attribute"></div>
 
         <div class="flex">
-          <button>
+          <button
+            @click="createLike(searchResult.id);
+          searchResult.liked = true"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              :fill="searchResult.liked ? 'red' : 'none'"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
