@@ -11,7 +11,7 @@ class InstagramController < ApplicationController
     end
     results = results.map do |r|
       r['liked'] = Like.where(photo_id: r[:id], user_id: current_user.id).exists?
-
+      r['likes'] = Like.where(photo_id: r[:id]).count
       r
     end
     render json: { results: }, status: 200

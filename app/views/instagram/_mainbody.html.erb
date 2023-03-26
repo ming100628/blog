@@ -12,14 +12,18 @@
 
         <img :src="searchResult.url" />
         <div x-text="searchResult.attribute"></div>
-
+        <div x-text="`${searchResult.likes} likes`"></div>
         <div class="flex">
           <button
             @click="if (searchResult.liked == false) {
               createLike(searchResult.id);
               searchResult.liked = true
+              searchResult.likes += 1
+
             } else {
-              destroyLike(searchResult.id); searchResult.liked = false
+              destroyLike(searchResult.id);
+              searchResult.liked = false
+              searchResult.likes -= 1
             }"
           >
             <svg
