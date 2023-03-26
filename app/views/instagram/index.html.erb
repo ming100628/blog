@@ -11,6 +11,18 @@
 
       init() {},
 
+      async destroyLike(photo_id) {
+        const result = await fetch(`/likes/null`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("[name='csrf-token']")
+              .content,
+          },
+          body: JSON.stringify({ photo_id: photo_id }),
+        });
+      },
+
       async createLike(photo_id) {
         const result = await fetch(`/likes`, {
           method: "POST",

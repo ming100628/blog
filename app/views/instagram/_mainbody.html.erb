@@ -15,8 +15,12 @@
 
         <div class="flex">
           <button
-            @click="createLike(searchResult.id);
-          searchResult.liked = true"
+            @click="if (searchResult.liked == false) {
+              createLike(searchResult.id);
+              searchResult.liked = true
+            } else {
+              destroyLike(searchResult.id); searchResult.liked = false
+            }"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
