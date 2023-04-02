@@ -75,6 +75,12 @@
             </svg>
           </button>
         </div>
+        <input
+          @keyup.enter="createComment(searchResult.id, $el.value)"
+          type="text"
+          placeholder="Add comment here..."
+          class="w-full"
+        />
       </div>
     </template>
   </div>

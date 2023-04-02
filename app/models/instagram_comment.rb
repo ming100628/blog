@@ -1,0 +1,3 @@
+class InstagramComment < ApplicationRecord
+
+end

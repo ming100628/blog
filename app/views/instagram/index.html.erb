@@ -35,6 +35,18 @@
         });
       },
 
+      async createComment(photo_id, comment) {
+        const result = await fetch(`/instagram_comments`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("[name='csrf-token']")
+              .content,
+          },
+          body: JSON.stringify({ photo_id: photo_id, content: comment }),
+        });
+      },
+
       async search(term) {
         const result = await fetch(`/instagram/search?search=${term}`, {
           method: "GET",
