@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   get '/instagram', to: 'instagram#index'
   get '/instagram/login_page', to: 'instagram#login_page'
   get '/instagram/search', to: 'instagram#search'
-  post '/instagram/instagram_comments', to: 'instagram_comment#create'
+  post '/instagram_comments', to: 'instagram_comments#create'
 
   resources :likes, only: %i[create destroy]
 end

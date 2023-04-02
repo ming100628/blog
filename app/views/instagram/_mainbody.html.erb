@@ -41,7 +41,7 @@
               />
             </svg>
           </button>
-          <button>
+          <button @click="searchResult.show = !searchResult.show">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -76,11 +76,16 @@
           </button>
         </div>
         <input
-          @keyup.enter="createComment(searchResult.id, $el.value)"
+          @keyup.enter="createComment(searchResult.id, $el.value); $el.value = ''"
           type="text"
           placeholder="Add comment here..."
           class="w-full"
         />
+        <div x-show="searchResult.show">
+          <template x-for="comment in searchResult.comments">
+            <div x-text="comment.content"></div>
+          </template>
+        </div>
       </div>
     </template>
   </div>
