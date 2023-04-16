@@ -1,7 +1,7 @@
 <div class="fixed left-48 right-0 bottom-0 top-0 bg-white overflow-y-auto">
   <input x-model="searchTerm" type="text" />
 
-  <div @click="search(searchTerm)" class="bg-slate-500 p-2 cursor-pointer">
+  <div @click="search(searchTerm, 1)" class="bg-slate-500 p-2 cursor-pointer">
     Search
   </div>
 
@@ -76,7 +76,10 @@
           </button>
         </div>
         <input
-          @keyup.enter="createComment(searchResult.id, $el.value); $el.value = ''"
+          @keyup.enter="createComment(searchResult.id, $el.value);
+          $el.value = '';
+          searchResult.comments.push({content: $el.value})
+          "
           type="text"
           placeholder="Add comment here..."
           class="w-full"
@@ -87,6 +90,11 @@
           </template>
         </div>
       </div>
+    </template>
+    <template x-if="searchResults.length > 0">
+      <button @click="search(searchTerm, (searchResults.length/10) + 1);">
+        Show more results
+      </button>
     </template>
   </div>
 </div>

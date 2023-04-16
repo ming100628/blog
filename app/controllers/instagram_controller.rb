@@ -4,7 +4,7 @@ class InstagramController < ApplicationController
   def index; end
 
   def search
-    results = PexelsService.new.client.photos.search(params[:search], page: 1, per_page: 10,
+    results = PexelsService.new.client.photos.search(params[:search], page: params[:page], per_page: 10,
                                                                       orientation: :portrait).instance_variable_get(:@attrs)['photos'].map do |result|
       { id: result['id'], url: result['src']['portrait'], photographer: result['photographer'],
         attribute: result['alt'], comments: InstagramComment.where(photo_id: result['id']) }

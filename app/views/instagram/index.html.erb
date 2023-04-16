@@ -47,13 +47,21 @@
         });
       },
 
-      async search(term) {
-        const result = await fetch(`/instagram/search?search=${term}`, {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        });
+      async search(term, page) {
+        const result = await fetch(
+          `/instagram/search?search=${term}&page=${page}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
         const data = await result.json();
-        this.searchResults = data.results;
+        const newSearchResults = data.results;
+        if (page === 1) {
+          this.searchResults = newSearchResults;
+        } else {
+          this.searchResults = this.searchResults.concat(newSearchResults);
+        }
         console.log(this.searchResults);
       },
     }));
