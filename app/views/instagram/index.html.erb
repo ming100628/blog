@@ -45,6 +45,9 @@
           },
           body: JSON.stringify({ photo_id: photo_id, content: comment }),
         });
+        const data = await result.json();
+        console.log(data);
+        return data;
       },
 
       async search(term, page) {

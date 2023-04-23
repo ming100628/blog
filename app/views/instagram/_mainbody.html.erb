@@ -80,17 +80,22 @@
           </button>
         </div>
         <input
-          @keyup.enter="createComment(searchResult.id, $el.value);
-          searchResult.comments.push({content: $el.value})
-          $el.value = '';
-          "
+          @keyup.enter="console.log()
+          if ($el.value != '') {
+            searchResult.comments = await createComment(searchResult.id, $el.value);
+            $el.value = '';
+          }"
           type="text"
           placeholder="Add comment here..."
           class="w-full"
         />
         <div x-show="searchResult.show">
           <template x-for="comment in searchResult.comments">
-            <div x-text="comment.content"></div>
+            <div class="flex space-x-2">
+              <div x-text="comment.username" class="font-bold"></div>
+
+              <div x-text="comment.content"></div>
+            </div>
           </template>
         </div>
       </div>

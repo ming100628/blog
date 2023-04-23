@@ -4,6 +4,17 @@ class InstagramCommentsController < ApplicationController
     user_id = current_user.id
     content = params[:content]
     instagram_comment = InstagramComment.create(photo_id:, user_id:, content:)
-    render json: { id: instagram_comment.id, content: instagram_comment.content }
+    comments = InstagramComment.where(photo_id:)
+      comments = comments.map do |comment|
+        {
+          content: comment.content,
+          user_id: comment.user_id,
+          photo_id: comment.photo_id,
+          id: comment.id,
+          created_at: comment.created_at,
+          username: comment.user.username
+        }
+      end
+    render json: comments
   end
 end
