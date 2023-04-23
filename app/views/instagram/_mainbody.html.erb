@@ -1,10 +1,14 @@
-<div class="fixed left-48 right-0 bottom-0 top-0 bg-white overflow-y-auto">
-  <input x-model="searchTerm" type="text" />
+<div class="left-48 right-0 bottom-0 top-0 bg-white overflow-y-auto fixed">
+  <div class="left-48 right-0 top-0 bg-white justify-center flex fixed">
+    <input x-model="searchTerm" type="text" />
 
-  <div @click="search(searchTerm, 1)" class="bg-slate-500 p-2 cursor-pointer">
-    Search
+    <div
+      @click="search(searchTerm, 1)"
+      class="bg-slate-500 p-2 cursor-pointer rounded-md"
+    >
+      Search
+    </div>
   </div>
-
   <div class="flex flex-col items-center space-y-5">
     <template x-for="searchResult in searchResults" :key="searchResult.id">
       <div class="w-56 bg-gray-200 border-2 border-black rounded-md">
@@ -77,8 +81,8 @@
         </div>
         <input
           @keyup.enter="createComment(searchResult.id, $el.value);
-          $el.value = '';
           searchResult.comments.push({content: $el.value})
+          $el.value = '';
           "
           type="text"
           placeholder="Add comment here..."
