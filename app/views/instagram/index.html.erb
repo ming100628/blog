@@ -50,6 +50,17 @@
         return data;
       },
 
+      async destroyComment(comment_id) {
+        const result = await fetch(`/instagram_comments/${comment_id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector("[name='csrf-token']")
+              .content,
+          },
+        });
+      },
+
       async search(term, page) {
         const result = await fetch(
           `/instagram/search?search=${term}&page=${page}`,
