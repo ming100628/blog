@@ -96,9 +96,10 @@
 
               <div x-text="comment.content"></div>
               <button
-                @click="destroyComment(comment.id)
-                searchResult.comments.splice(searchResult.comments.indexOf(comment),
-                1); "
+                x-show="comment.user_id == currentUserId"
+                @click="destroyComment(comment)
+                if (comment.user_id == currentUserId) {searchResult.comments.splice(searchResult.comments.indexOf(comment),
+                1)}; "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

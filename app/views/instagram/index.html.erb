@@ -8,7 +8,7 @@
     Alpine.data("instagram", () => ({
       searchTerm: "",
       searchResults: [],
-
+      currentUserId: <%= current_user.id %>,
       init() {},
 
       async destroyLike(photo_id) {
@@ -21,6 +21,7 @@
           },
           body: JSON.stringify({ photo_id: photo_id }),
         });
+
       },
 
       async createLike(photo_id) {
@@ -50,15 +51,30 @@
         return data;
       },
 
-      async destroyComment(comment_id) {
-        const result = await fetch(`/instagram_comments/${comment_id}`, {
+      async destroyComment(comment) {
+        const result = await fetch(`/instagram_comments/${comment.id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             "X-CSRF-Token": document.querySelector("[name='csrf-token']")
-              .content,
-          },
-        });
+            .content,
+            },
+          });
+        if (comment.user_id != this.currentUserId){
+          toastr.warning(
+
+            "Do Not Destroy Other Users' Comments",
+            "Destroy Failed"
+          );
+        } else {
+          if (result.status >= 200 && result.status < 300){
+            toastr.success(
+              "",
+              "Successfully Destroyed!"
+            )
+          }
+        }
+
       },
 
       async search(term, page) {
