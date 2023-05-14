@@ -26,6 +26,6 @@ Rails.application.routes.draw do
   get '/instagram/search', to: 'instagram#search'
   post '/instagram_comments', to: 'instagram_comments#create'
   delete '/instagram_comments/:id', to: 'instagram_comments#destroy'
-
+  get '/messages', to: 'messages#index'
   resources :likes, only: %i[create destroy]
 end
