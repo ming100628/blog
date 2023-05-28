@@ -1,6 +1,37 @@
 <div
   class="left-48 right-0 bottom-0 top-0 bg-white overflow-y-auto fixed h-screen flex items-center"
+  x-data="messages"
 >
+<script>
+  document.addEventListener("alpine:init", () => {
+    Alpine.data("messages", () => ({
+      currentUserId: <%= current_user.id %>,
+      chat_partners: [],
+      rooms: {},
+      current_room: null,
+
+      init() {
+        this.chatRooms()
+      },
+
+      async chatRooms(){
+        const result = await fetch(
+          `/messages.json`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const data = await result.json();
+        console.log(data)
+        this.chat_partners = data.chat_partners
+        this.rooms = data.rooms
+      }
+
+
+    }));
+  });
+</script>
   <div class="w-full">
     <div class="flex items-center justify-center">
       <div class="w-[22%] border-2 p-2 border-black flex justify-between">
@@ -50,19 +81,17 @@
     </div>
     <div class="flex items-center justify-center">
       <div class="w-[22%] h-96 border-2 p-2 border-black flex flex-col">
-        <div>User a</div>
-        <div>User a</div>
-        <div>User a</div>
-        <div>User a</div>
-        <div>User a</div>
-        <div>User a</div>
-        <div>User a</div>
+        <template x-for="chat_partner in Object.keys(chat_partners)">
+          <button @click="current_room = chat_partners[chat_partner]" x-text="chat_partner" class="hover:bg-red-50 rounded-md"></button>
+        </template>
+
       </div>
 
       <div class="w-[44%] h-96 border-2 p-2 border-black flex flex-col justify-between">
         <div>
-          <div>Here are my messages</div>
-          <div>Here are my messages</div><div>Here are my messages</div>
+          <template x-for="message in rooms[current_room]">
+            <div x-text="message.content"></div>
+          </template>
         </div>
        <input class="h-8 p-2 w-full" autofocus placeholder="type here"></input>
       </div>
