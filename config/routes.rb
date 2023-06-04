@@ -27,5 +27,6 @@ Rails.application.routes.draw do
   post '/instagram_comments', to: 'instagram_comments#create'
   delete '/instagram_comments/:id', to: 'instagram_comments#destroy'
   get '/messages', to: 'messages#index'
+  post '/messages', to: 'messages#create'
   resources :likes, only: %i[create destroy]
 end

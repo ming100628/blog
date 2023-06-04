@@ -11,8 +11,8 @@ class MessagesController < ApplicationController
         messages.each do |message|
           sender_id = message.sender_id
           receiver_id = message.receiver_id
-          array = [sender_id, receiver_id].sort
-          room_key = array.join('-')
+          room_key = sender_id + receiver_id - current_user.id
+
           if rooms[room_key].nil?
             rooms[room_key] = [message]
           else
@@ -30,5 +30,15 @@ class MessagesController < ApplicationController
                status: 200
       end
     end
+  end
+
+  def create
+    @message = Message.new(message_params)
+    @message.sender_id = current_user.id
+    @message.save!
+  end
+
+  def message_params
+    params.require(:message).permit(:content, :receiver_id)
   end
 end
