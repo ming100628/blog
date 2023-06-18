@@ -8,7 +8,13 @@
       searchTerm: "",
       searchResults: [],
       currentUserId: <%= current_user.id %>,
-      init() {},
+      init() {
+        const socket = new WebSocket("ws://localhost:3000/cable")
+        socket.onopen = function(event) {
+          console.log('connected')
+        }
+
+      },
 
       async destroyLike(photo_id) {
         const result = await fetch(`/likes/null`, {

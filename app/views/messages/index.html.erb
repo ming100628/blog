@@ -81,6 +81,24 @@
 
       init() {
         this.chatRooms()
+        const socket = new WebSocket("ws://localhost:3000/cable")
+        const that = this;
+        socket.onopen = function (event) {
+          const msg = {
+            command: "subscribe",
+            identifier: JSON.stringify({
+              id: this.currentUserId,
+              channel: "MessagesChannel"
+            })
+          }
+          socket.send(JSON.stringify(msg))
+        }
+        socket.onmessage = function (event) {
+          const data = JSON.parse(event.data)
+          if (data.type === "ping" || data.message === undefined) { return }
+          const message = data.message
+          that.rooms[message.sender_id].push(message)
+        }
       },
 
       async chatRooms(){
@@ -94,6 +112,7 @@
         const data = await result.json();
         this.chat_partners = data.chat_partners
         this.rooms = data.rooms
+        console.log(this.rooms)
       },
 
       async createMessage(receiver_id, content) {
