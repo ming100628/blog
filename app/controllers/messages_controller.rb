@@ -36,6 +36,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
     @message.sender_id = current_user.id
     @message.save!
+    render json: @message
   end
 
   def message_params

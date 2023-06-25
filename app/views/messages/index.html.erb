@@ -58,7 +58,7 @@
 
       </div>
 
-      <div class="w-[44%] h-96 border-2 p-2 border-black flex flex-col justify-between">
+      <div class="w-[44%] h-96 border-2 p-2 border-black flex flex-col justify-between overflow-scroll ">
         <div>
           <template x-for="message in rooms[current_room]">
             <div x-text="message.content"></div>
@@ -97,7 +97,13 @@
           const data = JSON.parse(event.data)
           if (data.type === "ping" || data.message === undefined) { return }
           const message = data.message
-          that.rooms[message.sender_id].push(message)
+          console.log(message)
+          if (that.rooms[message.sender_id]) {
+            that.rooms[message.sender_id].push(message)
+
+          } else {
+            that.rooms[message.receiver_id].push(message)
+          }
         }
       },
 
@@ -125,6 +131,8 @@
           },
           body: JSON.stringify({ receiver_id, content }),
         });
+        const message = await result.json();
+        this.rooms[receiver_id].push(message)
       },
 
 
