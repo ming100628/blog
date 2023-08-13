@@ -77,13 +77,16 @@
               class="text-base font-semibold leading-6 text-gray-900"
               id="modal-title"
             >
-              Payment successful
+              <input
+                class="border border-black"
+                @input.debounce="console.log($el.value)"
+                @keyup.enter="findUser($el.value)"
+              />
             </h3>
             <div class="mt-2">
-              <p class="text-sm text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Consequatur amet labore.
-              </p>
+              <ul>
+                <template x-for="i in 10"> <li x-text="i"></li> </template>
+              </ul>
             </div>
           </div>
         </div>

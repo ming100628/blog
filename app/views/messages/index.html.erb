@@ -79,7 +79,7 @@
       rooms: {},
       current_room: null,
       current_message: "",
-      findUserModal: false,
+      findUserModal: true,
 
       init() {
         this.chatRooms()
@@ -142,7 +142,19 @@
         this.rooms[receiver_id].push(message);
       },
 
+      async findUser(username) {
+        const result = await fetch(
+          `/users/search?username=${username}`,
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const data = await result.json();
+        const usernameResults = data.results;
 
+        console.log(usernameResults);
+      },
     }));
   });
 </script>

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :comments
   end
   post '/login', to: 'users#signed_in'
+  get '/login', to: 'users#login'
   get '/create_user', to: 'users#new'
   post '/create_user', to: 'users#create'
   get '/logout', to: 'users#logout'
@@ -28,5 +29,6 @@ Rails.application.routes.draw do
   delete '/instagram_comments/:id', to: 'instagram_comments#destroy'
   get '/messages', to: 'messages#index'
   post '/messages', to: 'messages#create'
+  get '/users/search', to: 'users#search'
   resources :likes, only: %i[create destroy]
 end

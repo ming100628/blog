@@ -4,6 +4,8 @@ class UsersController < ApplicationController
     render json: User.select(:username, :id).where('LOWER(username) LIKE ?', "%#{search_string.downcase}%")
   end
 
+  def login; end
+
   def signed_in
     user = User.find_by(username: params[:username])
     if user.nil?
@@ -49,6 +51,11 @@ class UsersController < ApplicationController
       flash[:errors] = user.errors.full_messages
       redirect_to '/create_user'
     end
+  end
+
+  def search
+    results = User.where('lower(username) LIKE ?', "%#{params[:username].downcase}%")
+    render json: { results: }, status: 200
   end
 
   private
