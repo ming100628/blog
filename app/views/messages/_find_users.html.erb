@@ -80,12 +80,20 @@
               <input
                 class="border border-black"
                 @input.debounce="console.log($el.value)"
-                @keyup.enter="findUser($el.value)"
+                @keyup.enter="let users = findUser($el.value)"
               />
             </h3>
             <div class="mt-2">
               <ul>
-                <template x-for="i in 10"> <li x-text="i"></li> </template>
+                <template x-for="userSearchResult in userSearchResults">
+                  <li>
+                    <button
+                      x-text="userSearchResult.username"
+                      @click="current_room = userSearchResult.id; findUserModal = false; chat_partners[userSearchResult.username] = userSearchResult.id;
+                      if (!rooms[userSearchResult.id]) { rooms[userSearchResult.id] = [] }"
+                    ></button>
+                  </li>
+                </template>
               </ul>
             </div>
           </div>
@@ -96,7 +104,7 @@
             @click="findUserModal = false"
             class="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Go back to dashboard
+            Go back
           </button>
         </div>
       </div>

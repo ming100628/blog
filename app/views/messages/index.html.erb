@@ -79,7 +79,8 @@
       rooms: {},
       current_room: null,
       current_message: "",
-      findUserModal: true,
+      findUserModal: false,
+      userSearchResults: [],
 
       init() {
         this.chatRooms()
@@ -120,8 +121,8 @@
         const data = await result.json();
         this.chat_partners = data.chat_partners
         this.rooms = data.rooms
-        console.log(this.rooms)
       },
+
 
       scrollToBottom(id) {
         const element = document.getElementById(id)
@@ -151,9 +152,7 @@
           }
         );
         const data = await result.json();
-        const usernameResults = data.results;
-
-        console.log(usernameResults);
+        this.userSearchResults = data.results;
       },
     }));
   });
