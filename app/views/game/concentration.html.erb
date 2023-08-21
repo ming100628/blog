@@ -20,19 +20,19 @@
           <h1 class="text-xl">Choose The Number of Tiles!</h1>
           <div class="flex flex-col">
             <button
-              @click="started = true; columns = 2; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+              @click="started = true; columns = 2; createUniquePairs((columns * columns) / 2)"
               class="bg-blue-300 p-3 m-3 rounded-md"
             >
               2x2
             </button>
             <button
-              @click="started = true; columns = 4; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+              @click="started = true; columns = 4; createUniquePairs((columns * columns) / 2)"
               class="bg-blue-300 p-3 m-3 rounded-md"
             >
               4x4
             </button>
             <button
-              @click="started = true; columns = 6; createUniquePairs((columns * columns) / 2); console.log(gameData.tiles)"
+              @click="started = true; columns = 6; createUniquePairs((columns * columns) / 2)"
               class="bg-blue-300 p-3 m-3 rounded-md"
             >
               6x6
@@ -139,9 +139,6 @@
         }
       },
       toggle(index) {
-        console.log(this.gameData.turn);
-        console.log(this.playerName);
-        console.log(this.gameData);
         if (this.gameData.no_of_clicks > 0 && this.gameData.open[index]) {
           return;
         }

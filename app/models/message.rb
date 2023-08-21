@@ -7,6 +7,9 @@ class Message < ApplicationRecord
   after_create :broadcast_message
 
   def broadcast_message
-    ActionCable.server.broadcast("messages:#{receiver.id}", self)
+    message = attributes
+    message[:receiver_username] = receiver.username
+    message[:sender_username] = sender.username
+    ActionCable.server.broadcast("messages:#{receiver.id}", message)
   end
 end

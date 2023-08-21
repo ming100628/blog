@@ -23,7 +23,7 @@
         </template>
 
         <button
-          @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; checkMasterCode(); console.log(masterCode); checkWinOrLose()"
+          @click="pegs[currentRound] = unsubmittedGuess.slice(); currentRound += 1; checkMasterCode(); checkWinOrLose()"
         >
           Submit Guess
         </button>
@@ -173,9 +173,7 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ score: score, game: "mastermind" }),
-        }).then((res) => {
-          console.log("Request complete! response:", res);
-        });
+        }).then((res) => {});
       },
     }));
   });

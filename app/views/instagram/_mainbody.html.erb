@@ -80,8 +80,7 @@
           </button>
         </div>
         <input
-          @keyup.enter="console.log()
-          if ($el.value != '') {
+          @keyup.enter="if ($el.value != '') {
             searchResult.comments = await createComment(searchResult.id, $el.value);
             $el.value = '';
           }"

@@ -33,7 +33,6 @@
       password: "",
 
       async login() {
-        console.log(this.username, this.password);
         const response = await fetch("/login", {
           method: "POST",
           headers: {
@@ -47,8 +46,6 @@
             password: this.password,
           }),
         });
-        console.log(await response.json());
-        console.log(response);
         if (response.status == 403) {
           alert("wrong password");
         }

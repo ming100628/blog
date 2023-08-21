@@ -10,9 +10,7 @@
       currentUserId: <%= current_user.id %>,
       init() {
         const socket = new WebSocket("ws://localhost:3000/cable")
-        socket.onopen = function(event) {
-          console.log('connected')
-        }
+
 
       },
 
@@ -52,7 +50,6 @@
           body: JSON.stringify({ photo_id: photo_id, content: comment }),
         });
         const data = await result.json();
-        console.log(data);
         return data;
       },
 
@@ -97,7 +94,6 @@
         } else {
           this.searchResults = this.searchResults.concat(newSearchResults);
         }
-        console.log(this.searchResults);
       },
     }));
   });

@@ -79,7 +79,6 @@
             >
               <input
                 class="border border-black"
-                @input.debounce="console.log($el.value)"
                 @keyup.enter="let users = findUser($el.value)"
               />
             </h3>

@@ -100,7 +100,6 @@
           const data = JSON.parse(event.data)
           if (data.type === "ping" || data.message === undefined) { return }
           const message = data.message
-          console.log(message)
 
           if (that.rooms[message.sender_id]) {
 
@@ -113,7 +112,8 @@
 
               that.rooms[message.sender_id] = []
               that.rooms[message.sender_id].push(message)
-              console.log(that.rooms)
+              that.chat_partners[message.sender_username] = message.sender_id
+              that.current_room = message.sender_id
             }
           }
         }
