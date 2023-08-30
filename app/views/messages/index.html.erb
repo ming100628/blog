@@ -54,7 +54,10 @@
     <div class="flex items-center justify-center">
       <div class="w-[22%] h-96 border-2 p-2 border-black flex flex-col">
         <template x-for="chat_partner in Object.keys(chat_partners)">
-          <button @click="current_room = chat_partners[chat_partner]; scrollToBottom('chatWindow')" x-text="chat_partner" class="hover:bg-red-50 rounded-md"></button>
+          <div class="flex">
+            <button @click="current_room = chat_partners[chat_partner]; scrollToBottom('chatWindow')" x-text="chat_partner" class="hover:bg-red-50 rounded-md"></button>
+            <div class="text-xs" x-text="rooms[chat_partners[chat_partner]].filter((message) => !message.status).length"></div>
+          </div>
         </template>
 
       </div>
