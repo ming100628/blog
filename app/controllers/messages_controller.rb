@@ -1,5 +1,12 @@
 class MessagesController < ApplicationController
   layout 'instagram_layout'
+
+  def read
+    id = params[:id]
+    message = Message.find(id)
+    message.update(status: Time.now) unless message.status
+  end
+
   def index
     respond_to do |format|
       format.html do
