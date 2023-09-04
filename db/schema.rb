@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_21_070041) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_04_071728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,7 +54,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_21_070041) do
     t.integer "sender_id"
     t.integer "receiver_id"
     t.string "content"
-    t.boolean "status", default: false
+    t.datetime "status"
   end
 
   create_table "scores", force: :cascade do |t|

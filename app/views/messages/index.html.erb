@@ -62,12 +62,13 @@
 
       </div>
 
-      <div id="chatWindow" class="w-[44%] h-96 border-2 p-2 border-black flex flex-col justify-between overflow-scroll ">
-        <div>
+      <div id="chatWindow" class="w-[44%] h-96 border-2 p-2 border-black overflow-scroll ">
           <template x-for="message in rooms[current_room]">
-            <div x-text="message.content"></div>
+            <div>
+              <div x-text="message.content"></div>
+              <div class="text-[6px] text-gray-400" x-text="message.status"></div>
+            </div>
           </template>
-        </div>
        <input x-model="current_message" class="h-8 p-2 w-full" autofocus placeholder="type here" @keyup.enter="await createMessage(current_room, current_message); current_message = ''; scrollToBottom('chatWindow');"></input>
       </div>
     </div>
