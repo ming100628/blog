@@ -4,7 +4,10 @@ class MessagesController < ApplicationController
   def read
     id = params[:id]
     message = Message.find(id)
-    message.update(status: Time.now) unless message.status
+    unless message.status
+      message.update(status: Time.now)
+      render json: message, status: 200
+    end
   end
 
   def index

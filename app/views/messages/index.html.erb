@@ -65,7 +65,7 @@
       <div id="chatWindow" class="w-[44%] h-96 border-2 p-2 border-black overflow-scroll ">
           <template x-for="message in rooms[current_room]">
             <div>
-              <div x-text="message.content"></div>
+              <div x-text="if (message.status === null) readMessage(message); return message.content"></div>
               <div class="text-[6px] text-gray-400" x-text="message.status"></div>
             </div>
           </template>
@@ -166,6 +166,18 @@
         );
         const data = await result.json();
         this.userSearchResults = data.results;
+      },
+
+      async readMessage(message) {
+        const result = await fetch(
+          `/messages/${message.id}/read`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const data = await result.json();
+        message.status = data.status;
       },
     }));
   });
