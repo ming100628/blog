@@ -54,22 +54,61 @@
     <div class="flex items-center justify-center">
       <div class="w-[22%] h-96 border-2 p-2 border-black flex flex-col">
         <template x-for="chat_partner in Object.keys(chat_partners)">
-          <div class="flex">
-            <button @click="current_room = chat_partners[chat_partner]; scrollToBottom('chatWindow')" x-text="chat_partner" class="hover:bg-red-50 rounded-md"></button>
-            <div class="text-xs" x-text="rooms[chat_partners[chat_partner]].filter((message) => !message.status).length"></div>
+          <div class="flex justify-between">
+            <div class="flex">
+              <button
+                @click="current_room = chat_partners[chat_partner]; scrollToBottom('chatWindow')"
+                x-text="chat_partner"
+                class="hover:bg-red-50 rounded-md"
+              ></button>
+              <div
+                class="text-xs"
+                x-text="rooms[chat_partners[chat_partner]].filter((message) => !message.status).length"
+              ></div>
+            </div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.0"
+                stroke="currentColor"
+                class="w-4 h-4"
+                @click="if (confirm('Are you sure you want to block this user?')) {
+                  console.log(chat_partners[chat_partner])
+                  blockUser(chat_partners[chat_partner])
+                }"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                />
+              </svg>
+            </div>
           </div>
         </template>
-
       </div>
 
-      <div id="chatWindow" class="w-[44%] h-96 border-2 p-2 border-black overflow-scroll ">
-          <template x-for="message in rooms[current_room]">
-            <div>
-              <div x-text="if (message.status === null) readMessage(message); return message.content"></div>
-              <div class="text-[6px] text-gray-400" x-text="message.status"></div>
-            </div>
-          </template>
-       <input x-model="current_message" class="h-8 p-2 w-full" autofocus placeholder="type here" @keyup.enter="await createMessage(current_room, current_message); current_message = ''; scrollToBottom('chatWindow');"></input>
+      <div
+        id="chatWindow"
+        class="w-[44%] h-96 border-2 p-2 border-black overflow-scroll"
+      >
+        <template x-for="message in rooms[current_room]">
+          <div>
+            <div
+              x-text="if (message.status === null) readMessage(message); return message.content"
+            ></div>
+            <div class="text-[6px] text-gray-400" x-text="message.status"></div>
+          </div>
+        </template>
+        <input
+          x-model="current_message"
+          class="h-8 p-2 w-full"
+          autofocus
+          placeholder="type here"
+          @keyup.enter="await createMessage(current_room, current_message); current_message = ''; scrollToBottom('chatWindow');"
+        />
       </div>
     </div>
   </div>
@@ -179,6 +218,19 @@
         const data = await result.json();
         message.status = data.status;
       },
+
+      async blockUser(blocked_id){
+        const result = await fetch(
+          `/blocks`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({blocked_id}),
+          }
+        );
+        const data = await result.json();
+      }
+
     }));
   });
 </script>
