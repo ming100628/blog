@@ -1,6 +1,6 @@
 class BlocksController < ApplicationController
   def block
-    blocker_id = current_user
+    blocker_id = current_user.id
     Block.find_or_create_by(blocker_id:, blocked_id: params[:blocked_id])
   end
 
