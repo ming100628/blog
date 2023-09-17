@@ -31,5 +31,8 @@ Rails.application.routes.draw do
   post '/messages', to: 'messages#create'
   post '/messages/:id/read', to: 'messages#read'
   get '/users/search', to: 'users#search'
+  post '/blocks', to: 'blocks#block'
+  delete '/blocks/#id', to: 'blocks#delete_block'
+
   resources :likes, only: %i[create destroy]
 end
