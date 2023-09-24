@@ -74,9 +74,14 @@
                 stroke-width="1.0"
                 stroke="currentColor"
                 class="w-4 h-4"
-                @click="if (confirm('Are you sure you want to block this user?')) {
-                  console.log(chat_partners[chat_partner])
-                  blockUser(chat_partners[chat_partner])
+                @click="if (checkBlock(chat_partners[chat_partner])) {
+                  if (confirm('Do You Want to Unblock this User?')){
+                    unBlock(chat_partners[chat_partner])
+                  }
+                } else {
+                  if (confirm('Do You Want to Block this User?')){
+                    blockUser(chat_partners[chat_partner])
+                  }
                 }"
               >
                 <path
@@ -124,11 +129,14 @@
       current_message: "",
       findUserModal: false,
       userSearchResults: [],
+      blocks: [],
 
       init() {
         this.chatRooms()
         const socket = new WebSocket("ws://localhost:3000/cable")
         const that = this;
+        this.getBlocks();
+
         socket.onopen = function (event) {
           const msg = {
             command: "subscribe",
@@ -229,8 +237,37 @@
           }
         );
         const data = await result.json();
-      }
+        this.getBlocks();
 
+      },
+
+      async unBlock(unblocked_id){
+        const result = await fetch(
+          `/blocks/${unblocked_id}`,
+          {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const data = await result.json();
+        this.getBlocks();
+      },
+
+      async getBlocks(){
+        const result = await fetch(
+            "/blocks",
+            {
+              method: "GET",
+              headers: {"Content-Type": "application/json"},
+            }
+        );
+        const data = await result.json();
+        this.blocks = data;
+      },
+
+      checkBlock(id){
+        return this.blocks.some((element) => element.blocked_id === id)
+      }
     }));
   });
 </script>
