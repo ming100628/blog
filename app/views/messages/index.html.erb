@@ -207,9 +207,6 @@
       },
 
       async createMessage(receiver_id, content) {
-        if (this.checkBlock(this.chat_partners[receiver_id])) {
-          return
-        }
         const result = await fetch(`/messages`, {
           method: "POST",
           headers: {
@@ -220,7 +217,12 @@
           body: JSON.stringify({ receiver_id, content }),
         });
         const message = await result.json();
-        this.rooms[receiver_id].push(message);
+        if (result.status >= 200 && result.status < 300) {
+          this.rooms[receiver_id].push(message)
+        };
+        if (result.status === 403) {
+          alert(message.error_message)
+        }
       },
 
       async findUser(username) {

@@ -45,8 +45,17 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     @message.sender_id = current_user.id
+    you_were_blocked = Block.find_by(blocker_id: @message.receiver_id, blocked_id: @message.sender_id)
+    you_are_blocking = Block.find_by(blocked_id: @message.receiver_id, blocker_id: @message.sender_id)
+
+    if you_were_blocked || you_are_blocking
+      error_message = 'Sorry, you were blocked' if you_were_blocked
+      error_message = 'Sorry, please remove your block' if you_are_blocking
+      return render json: { error_message: }, status: 403
+    end
+
     @message.save!
-    render json: @message
+    render json: @message, status:
   end
 
   def message_params
