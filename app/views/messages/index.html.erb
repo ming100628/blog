@@ -148,13 +148,14 @@
       userSearchResults: [],
       blocks: [],
 
-      init() {
-        this.chatRooms()
+      async init() {
+        await this.chatRooms()
         const socket = new WebSocket("ws://localhost:3000/cable")
         const that = this;
         this.getBlocks();
-
+        this.current_room = Object.values(this.chat_partners)[0]
         socket.onopen = function (event) {
+
           const msg = {
             command: "subscribe",
             identifier: JSON.stringify({
@@ -222,7 +223,8 @@
         };
         if (result.status === 403) {
           alert(message.error_message)
-        }
+        };
+
       },
 
       async findUser(username) {
